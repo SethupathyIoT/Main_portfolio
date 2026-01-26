@@ -1,0 +1,10 @@
+# Redirect admin URLs to admin panel
+/admin https://2fuhpvka9lh8sbmxouzih2gm20sh6zmesvf.netlify.app/ 302
+/admin/* https://2fuhpvka9lh8sbmxouzih2gm20sh6zmesvf.netlify.app/ 302
+
+# SPA fallback for single page application behavior
+/projects/* /projects.html 200
+/project/* /single-product.html 200
+
+# Force HTTPS
+http://sethupathy.iot-hub.in/* https://sethupathy.iot-hub.in/:splat 301!

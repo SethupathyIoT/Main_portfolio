@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio JSON Structure Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, #cf000f, #ff6b35);
+            border-radius: 10px;
+        }
+        .test-section {
+            background: #2a2a2a;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #cf000f;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .success { background: #2d5a2d; color: #90ee90; }
+        .error { background: #5a2d2d; color: #ff6b6b; }
+        .info { background: #2d4a5a; color: #87ceeb; }
+        pre {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border: 1px solid #444;
+        }
+        .data-preview {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .btn {
+            background: #cf000f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #a00009;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Portfolio JSON Structure Test</h1>
+            <p>Testing dynamic data loading for Sethupathy's IoT Portfolio</p>
+        </div>
+
+        <div class="test-section">
+            <h2>📡 JSON Data Loading Test</h2>
+            <div id="loading-status" class="status info">🔄 Testing JSON data loading...</div>
+            <button class="btn" onclick="testDataLoading()">🔄 Retry Test</button>
+            <button class="btn" onclick="showDataStructure()">📊 Show Data Structure</button>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 Data Structure Preview</h2>
+            <div id="data-preview" class="data-preview"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🔍 Individual Section Tests</h2>
+            <div id="projects-test" class="status info">Projects: Not tested</div>
+            <div id="skills-test" class="status info">Skills: Not tested</div>
+            <div id="experience-test" class="status info">Experience: Not tested</div>
+            <button class="btn" onclick="testSections()">🧪 Test All Sections</button>
+        </div>
+
+        <div class="test-section">
+            <h2>🌐 Integration Status</h2>
+            <div id="integration-status">
+                <div class="status info">Admin Panel: <span id="admin-status">Not connected</span></div>
+                <div class="status info">GitHub Sync: <span id="github-status">Not tested</span></div>
+                <div class="status info">Live Portfolio: <span id="portfolio-status">Not tested</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let portfolioData = null;
+
+        async function testDataLoading() {
+            const statusDiv = document.getElementById('loading-status');
+            statusDiv.className = 'status info';
+            statusDiv.innerHTML = '🔄 Loading portfolio data...';
+
+            try {
+                const response = await fetch('./data/portfolio-data.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                portfolioData = await response.json();
+                
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = `✅ JSON data loaded successfully! Found ${portfolioData.projects?.length || 0} projects, ${portfolioData.skills?.length || 0} skills, ${portfolioData.experience?.length || 0} experiences`;
+                
+                // Auto-test sections
+                testSections();
+                
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `❌ Failed to load JSON data: ${error.message}`;
+                console.error('JSON loading error:', error);
+            }
+        }
+
+        function showDataStructure() {
+            const previewDiv = document.getElementById('data-preview');
+            
+            if (!portfolioData) {
+                previewDiv.innerHTML = '<div class="status error">❌ No data loaded. Run the loading test first.</div>';
+                return;
+            }
+
+            const structure = {
+                projects: portfolioData.projects?.length || 0,
+                skills: portfolioData.skills?.length || 0,
+                experience: portfolioData.experience?.length || 0,
+                profile: portfolioData.profile ? 'Available' : 'Missing'
+            };
+
+            previewDiv.innerHTML = `
+                <h3>📋 Data Summary</h3>
+                <pre>${JSON.stringify(structure, null, 2)}</pre>
+                
+                <h3>🎯 Sample Project</h3>
+                <pre>${JSON.stringify(portfolioData.projects?.[0] || 'No projects found', null, 2)}</pre>
+                
+                <h3>🛠️ Sample Skill</h3>
+                <pre>${JSON.stringify(portfolioData.skills?.[0] || 'No skills found', null, 2)}</pre>
+            `;
+        }
+
+        function testSections() {
+            const projectsDiv = document.getElementById('projects-test');
+            const skillsDiv = document.getElementById('skills-test');
+            const experienceDiv = document.getElementById('experience-test');
+
+            if (!portfolioData) {
+                [projectsDiv, skillsDiv, experienceDiv].forEach(div => {
+                    div.className = 'status error';
+                    div.innerHTML = div.innerHTML.split(':')[0] + ': ❌ No data loaded';
+                });
+                return;
+            }
+
+            // Test projects
+            if (portfolioData.projects && portfolioData.projects.length > 0) {
+                projectsDiv.className = 'status success';
+                projectsDiv.innerHTML = `Projects: ✅ ${portfolioData.projects.length} projects found`;
+            } else {
+                projectsDiv.className = 'status error';
+                projectsDiv.innerHTML = 'Projects: ❌ No projects found';
+            }
+
+            // Test skills
+            if (portfolioData.skills && portfolioData.skills.length > 0) {
+                skillsDiv.className = 'status success';
+                skillsDiv.innerHTML = `Skills: ✅ ${portfolioData.skills.length} skill categories found`;
+            } else {
+                skillsDiv.className = 'status error';
+                skillsDiv.innerHTML = 'Skills: ❌ No skills found';
+            }
+
+            // Test experience
+            if (portfolioData.experience && portfolioData.experience.length > 0) {
+                experienceDiv.className = 'status success';
+                experienceDiv.innerHTML = `Experience: ✅ ${portfolioData.experience.length} experience entries found`;
+            } else {
+                experienceDiv.className = 'status error';
+                experienceDiv.innerHTML = 'Experience: ❌ No experience found';
+            }
+        }
+
+        // Auto-run test on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            testDataLoading();
+        });
+
+        // Test integration status
+        function checkIntegrationStatus() {
+            // Check if we're on the live site
+            const isLiveSite = window.location.hostname === 'sethupathy.iot-hub.in';
+            const portfolioStatus = document.getElementById('portfolio-status');
+            
+            if (isLiveSite) {
+                portfolioStatus.innerHTML = '✅ Running on live portfolio';
+            } else {
+                portfolioStatus.innerHTML = '🔧 Running on local/test environment';
+            }
+        }
+
+        // Run integration check
+        checkIntegrationStatus();
+    </script>
+</body>
+</html>

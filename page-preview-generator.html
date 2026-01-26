@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Preview Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #161616 0%, #0d0d0d 100%);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .preview-container {
+            text-align: center;
+            color: white;
+            z-index: 2;
+            max-width: 800px;
+            padding: 40px;
+        }
+        
+        .logo {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+        
+        .accent {
+            color: #cf000f;
+        }
+        
+        .title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: #a6a6a6;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+        
+        .skills {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .skill-tag {
+            background: rgba(207, 0, 15, 0.1);
+            border: 1px solid rgba(207, 0, 15, 0.3);
+            color: #cf000f;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            background-image: 
+                radial-gradient(circle at 25% 25%, #cf000f 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, #cf000f 2px, transparent 2px);
+            background-size: 100px 100px;
+            background-position: 0 0, 50px 50px;
+        }
+        
+        .circuit-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: 
+                linear-gradient(90deg, transparent 49%, #cf000f 50%, transparent 51%),
+                linear-gradient(0deg, transparent 49%, #cf000f 50%, transparent 51%);
+            background-size: 80px 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+    <div class="circuit-lines"></div>
+    
+    <div class="preview-container">
+        <div class="logo">SETHUPATHY<span class="accent">.</span></div>
+        <div class="title">IoT Developer Portfolio</div>
+        <div class="subtitle">Embedded Systems Engineer passionate about building smart, connected, and reliable IoT solutions</div>
+        
+        <div class="skills">
+            <span class="skill-tag">ESP32</span>
+            <span class="skill-tag">STM32</span>
+            <span class="skill-tag">C/C++</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">MQTT</span>
+            <span class="skill-tag">IoT</span>
+        </div>
+    </div>
+</body>
+</html>

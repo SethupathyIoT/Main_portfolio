@@ -1,0 +1,212 @@
+{
+  "profile": {
+    "name": "Sethupathy Me",
+    "title": "IoT Developer & Embedded Systems Engineer",
+    "bio": "IoT Developer and Embedded Systems Engineer passionate about building smart, connected, and reliable systems. Experienced in C/C++, Python, and ARM-based microcontrollers.",
+    "email": "SethupathyIoT@proton.me",
+    "linkedin": "https://linkedin.com/in/sethupathy-iot",
+    "github": "https://github.com/SethupathyIoT"
+  },
+  "projects": [
+    {
+      "id": 1,
+      "name": "Real-Time GPS Tracking System",
+      "description": "GPS tracking utilizing ESP32 and NEO-6M for real-time updates via Telegram Bot. Includes Google Maps integration and portable battery operation.",
+      "technologies": "ESP32, NEO-6M, Telegram Bot, Google Maps API",
+      "github": "https://github.com/SethupathyIoT",
+      "demo": "",
+      "image": "assets/img/project-01.jpg",
+      "featured": true
+    },
+    {
+      "id": 2,
+      "name": "Smart Home Automation",
+      "description": "Voice-controlled automation using ESP32, DHT11, and Relay Modules. Integrated with Alexa and Home Assistant via Nabu Casa.",
+      "technologies": "ESP32, DHT11, Relay Modules, Alexa, Home Assistant",
+      "github": "https://github.com/SethupathyIoT",
+      "demo": "",
+      "image": "assets/img/project-02.jpg",
+      "featured": true
+    },
+    {
+      "id": 3,
+      "name": "Industrial IoT Monitoring System",
+      "description": "MQTT-based industrial monitoring system with real-time data visualization and alert mechanisms for production environments.",
+      "technologies": "ESP32, MQTT, InfluxDB, Grafana, Node-RED",
+      "github": "https://github.com/SethupathyIoT",
+      "demo": "",
+      "image": "assets/img/project-03.jpg",
+      "featured": false
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "category": "Embedded Development",
+      "icon": "lnir-code-alt",
+      "description": "Low-level programming and firmware development for microcontrollers",
+      "tags": [
+        "Embedded C",
+        "C++",
+        "Assembly",
+        "Real-time OS",
+        "Bare Metal",
+        "Interrupt Handling"
+      ],
+      "color": "#cf000f"
+    },
+    {
+      "id": 2,
+      "category": "Microcontrollers & SoCs",
+      "icon": "lnir-cog",
+      "description": "ARM-based and 8-bit microcontroller platforms",
+      "tags": [
+        "STM32",
+        "ESP32/ESP8266",
+        "Raspberry Pi",
+        "Arduino",
+        "PIC",
+        "8051",
+        "Nordic nRF"
+      ],
+      "color": "#ff6b35"
+    },
+    {
+      "id": 3,
+      "category": "Communication Protocols",
+      "icon": "lnir-shuffle",
+      "description": "Wired and wireless communication interfaces",
+      "tags": [
+        "UART/USART",
+        "SPI",
+        "I2C",
+        "CAN Bus",
+        "RS485",
+        "1-Wire"
+      ],
+      "color": "#4a90e2"
+    },
+    {
+      "id": 4,
+      "category": "IoT Protocols & Standards",
+      "icon": "lnir-cloud-network",
+      "description": "Industrial and consumer IoT communication standards",
+      "tags": [
+        "MQTT",
+        "Modbus RTU/TCP",
+        "HTTP/HTTPS",
+        "CoAP",
+        "WebSocket",
+        "OPC UA"
+      ],
+      "color": "#00d4aa"
+    },
+    {
+      "id": 5,
+      "category": "Wireless Technologies",
+      "icon": "lnir-signal",
+      "description": "Short and long-range wireless communication",
+      "tags": [
+        "Wi-Fi",
+        "Bluetooth/BLE",
+        "LoRa/LoRaWAN",
+        "Zigbee",
+        "NFC",
+        "GSM/LTE"
+      ],
+      "color": "#9b59b6"
+    },
+    {
+      "id": 6,
+      "category": "Sensors & Actuators",
+      "icon": "lnir-pulse",
+      "description": "Environmental monitoring and control systems",
+      "tags": [
+        "Temperature/Humidity",
+        "Pressure",
+        "Accelerometer/Gyro",
+        "GPS/GNSS",
+        "Relays",
+        "Motor Control"
+      ],
+      "color": "#f39c12"
+    },
+    {
+      "id": 7,
+      "category": "Programming Languages",
+      "icon": "lnir-laptop-phone",
+      "description": "Multi-language development expertise",
+      "tags": [
+        "Python",
+        "JavaScript",
+        "C/C++",
+        "MicroPython",
+        "Bash/Shell",
+        "YAML"
+      ],
+      "color": "#2ecc71"
+    },
+    {
+      "id": 8,
+      "category": "Development Tools",
+      "icon": "lnir-cogs",
+      "description": "IDEs, debuggers, and development environments",
+      "tags": [
+        "Arduino IDE",
+        "PlatformIO",
+        "STM32CubeIDE",
+        "VS Code",
+        "Git/GitHub",
+        "Oscilloscope"
+      ],
+      "color": "#e74c3c"
+    },
+    {
+      "id": 9,
+      "category": "IoT Platforms & Services",
+      "icon": "lnir-cloud-sync",
+      "description": "Cloud platforms and home automation systems",
+      "tags": [
+        "Home Assistant",
+        "ESPHome",
+        "ThingSpeak",
+        "AWS IoT",
+        "Node-RED",
+        "InfluxDB"
+      ],
+      "color": "#3498db"
+    }
+  ],
+  "experience": [
+    {
+      "id": 1,
+      "company": "TRUCON",
+      "subtitle": "Brickslate Industries",
+      "position": "IoT Developer",
+      "period": "Aug 2024 - Present",
+      "description": "TRUCON by Brickslate Industries Private Limited. Designed, developed, and deployed IoT solutions focusing on automation and robustness. Implemented stacks using C/C++, Python, and MQTT/Modbus.",
+      "icon": "lnir-cogs",
+      "color": "#cf000f"
+    },
+    {
+      "id": 2,
+      "company": "TRUCON",
+      "subtitle": "Internship",
+      "position": "IoT Intern",
+      "period": "Mar 2024 - Aug 2024",
+      "description": "Validated and supported industrial IoT systems. Performed Wi-Fi/BLE connectivity testing and assisted in debugging live production environments.",
+      "icon": "lnir-graduation",
+      "color": "#3498db"
+    },
+    {
+      "id": 3,
+      "company": "RVS College",
+      "subtitle": "Arts & Science",
+      "position": "B.Sc. IoT",
+      "period": "2022 - 2025",
+      "description": "RVS Arts and Science College. Specialized in Embedded Systems & Microcontrollers (8051, PIC).",
+      "icon": "lnir-graduate",
+      "color": "#2ecc71"
+    }
+  ]
+}

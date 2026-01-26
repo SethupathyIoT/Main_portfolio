@@ -1,0 +1,813 @@
+/* 
+ * Custom Portfolio Refinements
+ * Fixing Navbar Overlap, Gigantic Typography, and Grid Alignment.
+ */
+
+/* 1. Navbar Stability & Alignment (Critical Fix) */
+.vlt-navbar .vlt-navbar-inner {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 1.25rem 3.75rem !important;
+    /* Balanced padding */
+}
+
+/* Ensure Logo, Menu, and CTA don't fight */
+.vlt-navbar-inner--left {
+    flex: 0 1 auto !important;
+    position: static !important;
+    z-index: 2;
+}
+
+.vlt-navbar-inner--center {
+    flex: 1 1 auto !important;
+    position: static !important;
+    display: flex !important;
+    justify-content: center !important;
+    pointer-events: auto !important;
+}
+
+.vlt-navbar-inner--right {
+    flex: 0 1 auto !important;
+    position: static !important;
+}
+
+.vlt-navbar-logo h3 {
+    font-size: 1.2rem !important;
+    margin: 0 !important;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* 2. Professional Typography (Avoiding 'Gigantic' mess) */
+h1.vlt-large-heading,
+.h1.vlt-large-heading {
+    font-size: 4.5rem !important;
+    /* Reduced from 7.5rem */
+    letter-spacing: -2px;
+}
+
+@media (max-width: 767px) {
+    h1.vlt-large-heading {
+        font-size: 3rem !important;
+    }
+}
+
+/* Adjust Section Titles to be perfectly centered and clear */
+.vlt-section-title {
+    text-align: center !important;
+    margin-bottom: 3.5rem !important;
+    width: 100% !important;
+}
+
+.vlt-section-title h2 {
+    font-size: 2.8rem !important;
+    margin-bottom: 1rem !important;
+}
+
+.vlt-section-title p {
+    max-width: 700px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-size: 1.1rem !important;
+    color: #a0a0a0 !important;
+}
+
+/* 3. Perfect Skill Cards - Uniform Size & Enhanced Animations */
+.vlt-skill-box {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-top: 4px solid #cf000f !important;
+    padding: 2.5rem 2rem !important;
+    border-radius: 12px;
+    height: 420px !important; /* Fixed height for uniformity */
+    min-height: 420px !important;
+    max-height: 420px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+    position: relative;
+    overflow: hidden;
+    transform: translateY(0) scale(1) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+}
+
+.vlt-skill-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(207, 0, 15, 0.02) 0%, transparent 50%);
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: 1;
+}
+
+.vlt-skill-box::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, transparent, rgba(207, 0, 15, 0.1), transparent);
+    border-radius: 12px;
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: -1;
+}
+
+.vlt-skill-box:hover::before {
+    opacity: 1;
+}
+
+.vlt-skill-box:hover::after {
+    opacity: 1;
+    animation: borderGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes borderGlow {
+    0% { opacity: 0.3; }
+    100% { opacity: 0.8; }
+}
+
+.vlt-skill-box:hover {
+    transform: translateY(-15px) scale(1.02) !important;
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4), 0 0 40px rgba(207, 0, 15, 0.1) !important;
+    border-color: rgba(207, 0, 15, 0.3) !important;
+}
+
+/* Skill Box Content Structure */
+.vlt-skill-box-header {
+    flex: 0 0 auto;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.vlt-skill-box-content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.vlt-skill-box i {
+    font-size: 3.2rem !important;
+    margin-bottom: 1.5rem !important;
+    display: block;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+    position: relative;
+    z-index: 2;
+}
+
+.vlt-skill-box:hover i {
+    transform: scale(1.15) translateY(-8px) rotateY(5deg) !important;
+    filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.6));
+}
+
+.vlt-skill-box h5 {
+    margin-bottom: 1rem !important;
+    font-size: 1.3rem !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    min-height: 2.6rem !important; /* Ensures consistent title height */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease !important;
+}
+
+.vlt-skill-box:hover h5 {
+    transform: translateY(-2px) !important;
+}
+
+.skill-description {
+    color: #a0a0a0 !important;
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+    margin-bottom: 1.5rem !important;
+    opacity: 0.85;
+    text-align: center !important;
+    min-height: 3.2rem !important; /* Ensures consistent description height */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease !important;
+}
+
+.vlt-skill-box:hover .skill-description {
+    opacity: 1;
+    color: #b5b5b5 !important;
+}
+
+.vlt-skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center !important;
+    margin-top: auto;
+    position: relative;
+    z-index: 2;
+    min-height: 120px !important; /* Ensures consistent tags area height */
+    align-content: flex-start !important;
+}
+
+.vlt-skill-tag {
+    font-size: 0.75rem !important;
+    padding: 0.5rem 0.9rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 25px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #e0e0e0 !important;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.vlt-skill-tag::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.vlt-skill-tag:hover::before {
+    left: 100%;
+}
+
+.vlt-skill-tag:hover {
+    background: rgba(207, 0, 15, 0.15) !important;
+    border-color: rgba(207, 0, 15, 0.4) !important;
+    color: #cf000f !important;
+    transform: translateY(-3px) scale(1.05) !important;
+    box-shadow: 0 8px 20px rgba(207, 0, 15, 0.2) !important;
+}
+
+/* Enhanced Category-Specific Hover Effects */
+.core-cat:hover {
+    box-shadow: 0 25px 80px rgba(207, 0, 15, 0.4), 0 0 40px rgba(207, 0, 15, 0.2) !important;
+    border-top-color: #cf000f !important;
+}
+
+.core-cat:hover i {
+    color: #cf000f !important;
+    text-shadow: 0 0 30px rgba(207, 0, 15, 0.6);
+}
+
+.mcu-cat:hover {
+    box-shadow: 0 25px 80px rgba(255, 107, 53, 0.4), 0 0 40px rgba(255, 107, 53, 0.2) !important;
+    border-top-color: #ff6b35 !important;
+}
+
+.mcu-cat:hover i {
+    color: #ff6b35 !important;
+    text-shadow: 0 0 30px rgba(255, 107, 53, 0.6);
+}
+
+.comm-cat:hover {
+    box-shadow: 0 25px 80px rgba(74, 144, 226, 0.4), 0 0 40px rgba(74, 144, 226, 0.2) !important;
+    border-top-color: #4a90e2 !important;
+}
+
+.comm-cat:hover i {
+    color: #4a90e2 !important;
+    text-shadow: 0 0 30px rgba(74, 144, 226, 0.6);
+}
+
+.iot-cat:hover {
+    box-shadow: 0 25px 80px rgba(0, 212, 170, 0.4), 0 0 40px rgba(0, 212, 170, 0.2) !important;
+    border-top-color: #00d4aa !important;
+}
+
+.iot-cat:hover i {
+    color: #00d4aa !important;
+    text-shadow: 0 0 30px rgba(0, 212, 170, 0.6);
+}
+
+.wireless-cat:hover {
+    box-shadow: 0 25px 80px rgba(155, 89, 182, 0.4), 0 0 40px rgba(155, 89, 182, 0.2) !important;
+    border-top-color: #9b59b6 !important;
+}
+
+.wireless-cat:hover i {
+    color: #9b59b6 !important;
+    text-shadow: 0 0 30px rgba(155, 89, 182, 0.6);
+}
+
+.sensor-cat:hover {
+    box-shadow: 0 25px 80px rgba(243, 156, 18, 0.4), 0 0 40px rgba(243, 156, 18, 0.2) !important;
+    border-top-color: #f39c12 !important;
+}
+
+.sensor-cat:hover i {
+    color: #f39c12 !important;
+    text-shadow: 0 0 30px rgba(243, 156, 18, 0.6);
+}
+
+.prog-cat:hover {
+    box-shadow: 0 25px 80px rgba(46, 204, 113, 0.4), 0 0 40px rgba(46, 204, 113, 0.2) !important;
+    border-top-color: #2ecc71 !important;
+}
+
+.prog-cat:hover i {
+    color: #2ecc71 !important;
+    text-shadow: 0 0 30px rgba(46, 204, 113, 0.6);
+}
+
+.tools-cat:hover {
+    box-shadow: 0 25px 80px rgba(231, 76, 60, 0.4), 0 0 40px rgba(231, 76, 60, 0.2) !important;
+    border-top-color: #e74c3c !important;
+}
+
+.tools-cat:hover i {
+    color: #e74c3c !important;
+    text-shadow: 0 0 30px rgba(231, 76, 60, 0.6);
+}
+
+.platform-cat:hover {
+    box-shadow: 0 25px 80px rgba(52, 152, 219, 0.4), 0 0 40px rgba(52, 152, 219, 0.2) !important;
+    border-top-color: #3498db !important;
+}
+
+.platform-cat:hover i {
+    color: #3498db !important;
+    text-shadow: 0 0 30px rgba(52, 152, 219, 0.6);
+}
+
+/* Enhanced Icon Styling with Perfect Animations */
+.vlt-skill-box i {
+    font-size: 3.2rem !important;
+    margin-bottom: 1.5rem !important;
+    display: block;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+    position: relative;
+    z-index: 2;
+}
+
+.vlt-skill-box:hover i {
+    transform: scale(1.15) translateY(-8px) rotateY(5deg) !important;
+    filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.6));
+}
+
+
+
+/* Enhanced skill tag hover effects with category colors */
+.core-cat .vlt-skill-tag:hover {
+    background: rgba(207, 0, 15, 0.15) !important;
+    border-color: rgba(207, 0, 15, 0.4) !important;
+    color: #cf000f !important;
+}
+
+.mcu-cat .vlt-skill-tag:hover {
+    background: rgba(255, 107, 53, 0.15) !important;
+    border-color: rgba(255, 107, 53, 0.4) !important;
+    color: #ff6b35 !important;
+}
+
+.comm-cat .vlt-skill-tag:hover {
+    background: rgba(74, 144, 226, 0.15) !important;
+    border-color: rgba(74, 144, 226, 0.4) !important;
+    color: #4a90e2 !important;
+}
+
+.iot-cat .vlt-skill-tag:hover {
+    background: rgba(0, 212, 170, 0.15) !important;
+    border-color: rgba(0, 212, 170, 0.4) !important;
+    color: #00d4aa !important;
+}
+
+.wireless-cat .vlt-skill-tag:hover {
+    background: rgba(155, 89, 182, 0.15) !important;
+    border-color: rgba(155, 89, 182, 0.4) !important;
+    color: #9b59b6 !important;
+}
+
+.sensor-cat .vlt-skill-tag:hover {
+    background: rgba(243, 156, 18, 0.15) !important;
+    border-color: rgba(243, 156, 18, 0.4) !important;
+    color: #f39c12 !important;
+}
+
+.prog-cat .vlt-skill-tag:hover {
+    background: rgba(46, 204, 113, 0.15) !important;
+    border-color: rgba(46, 204, 113, 0.4) !important;
+    color: #2ecc71 !important;
+}
+
+.tools-cat .vlt-skill-tag:hover {
+    background: rgba(231, 76, 60, 0.15) !important;
+    border-color: rgba(231, 76, 60, 0.4) !important;
+    color: #e74c3c !important;
+}
+
+.platform-cat .vlt-skill-tag:hover {
+    background: rgba(52, 152, 219, 0.15) !important;
+    border-color: rgba(52, 152, 219, 0.4) !important;
+    color: #3498db !important;
+}
+
+/* Enhanced Responsive Design */
+@media (max-width: 768px) {
+    .vlt-skill-box {
+        padding: 2rem 1.5rem !important;
+        margin-bottom: 2rem !important;
+        height: 380px !important; /* Slightly smaller on mobile */
+        min-height: 380px !important;
+        max-height: 380px !important;
+    }
+    
+    .vlt-skill-box i {
+        font-size: 2.5rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    .vlt-skill-box h5 {
+        font-size: 1.1rem !important;
+        min-height: 2.2rem !important;
+    }
+    
+    .skill-description {
+        font-size: 0.85rem !important;
+        margin-bottom: 1rem !important;
+        min-height: 2.8rem !important;
+    }
+    
+    .vlt-skill-tags {
+        min-height: 100px !important;
+    }
+    
+    .vlt-skill-tag {
+        font-size: 0.7rem !important;
+        padding: 0.4rem 0.7rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .vlt-skill-box {
+        height: 360px !important;
+        min-height: 360px !important;
+        max-height: 360px !important;
+        padding: 1.5rem 1rem !important;
+    }
+    
+    .vlt-skill-box i {
+        font-size: 2.2rem !important;
+    }
+    
+    .vlt-skill-tags {
+        min-height: 90px !important;
+    }
+}
+
+/* Staggered Animation Enhancement */
+.vlt-animated-block .vlt-skill-box {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    animation: skillBoxFadeIn 0.8s ease-out forwards;
+}
+
+@keyframes skillBoxFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Staggered delays for each row */
+.row:nth-child(1) .col-lg-4:nth-child(1) .vlt-skill-box { animation-delay: 0.1s; }
+.row:nth-child(1) .col-lg-4:nth-child(2) .vlt-skill-box { animation-delay: 0.2s; }
+.row:nth-child(1) .col-lg-4:nth-child(3) .vlt-skill-box { animation-delay: 0.3s; }
+
+.row:nth-child(3) .col-lg-4:nth-child(1) .vlt-skill-box { animation-delay: 0.4s; }
+.row:nth-child(3) .col-lg-4:nth-child(2) .vlt-skill-box { animation-delay: 0.5s; }
+.row:nth-child(3) .col-lg-4:nth-child(3) .vlt-skill-box { animation-delay: 0.6s; }
+
+.row:nth-child(5) .col-lg-4:nth-child(1) .vlt-skill-box { animation-delay: 0.7s; }
+.row:nth-child(5) .col-lg-4:nth-child(2) .vlt-skill-box { animation-delay: 0.8s; }
+.row:nth-child(5) .col-lg-4:nth-child(3) .vlt-skill-box { animation-delay: 0.9s; }
+
+/* 5. Contrast & UX */
+body {
+    color: #a6a6a6 !important;
+    background-color: #0d0d0d !important;
+    /* Slightly deeper black */
+}
+
+/* Navbar CTA button */
+.vlt-navbar-contacts a {
+    background-color: #cf000f !important;
+    color: #fff !important;
+    padding: 0.65rem 1.4rem !important;
+    border-radius: 4px !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+    letter-spacing: 0.5px;
+    transition: 0.3s ease !important;
+}
+
+.vlt-navbar-contacts a:hover {
+    background-color: #9c000b !important;
+    transform: scale(1.05);
+}
+
+/* Fade decorative lines */
+.vlt-fixed-socials::before {
+    opacity: 0.05 !important;
+}
+
+.vlt-fullpage-slider-progress-bar {
+    width: 2px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.vlt-fullpage-slider-progress-bar span {
+    background: #cf000f !important;
+}
+
+/* 6. Projects Archive Styles */
+.vlt-projects-filter {
+    text-align: center;
+}
+
+.vlt-filter-list {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    gap: 1.5rem;
+}
+
+.vlt-filter-list li {
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #888;
+    transition: all 0.3s ease;
+    padding: 0.5rem 0;
+    border-bottom: 2px solid transparent;
+}
+
+.vlt-filter-list li.active,
+.vlt-filter-list li:hover {
+    color: #cf000f;
+    border-bottom-color: #cf000f;
+}
+
+.vlt-btn--secondary {
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+}
+
+.vlt-btn--secondary:hover {
+    background: #cf000f !important;
+    border-color: #cf000f !important;
+}
+
+@media (max-width: 768px) {
+    .vlt-filter-list {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+}
+
+/* 7. Enhanced Experience Section Icons */
+.vlt-experience-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    margin: 0 auto;
+    position: relative;
+    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    overflow: hidden;
+}
+
+.vlt-experience-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(207, 0, 15, 0.1) 0%, transparent 50%);
+    border-radius: 50%;
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.vlt-experience-icon:hover::before {
+    opacity: 1;
+}
+
+.vlt-experience-icon i {
+    font-size: 2.5rem;
+    color: #cf000f;
+    margin-bottom: 0.5rem;
+    transition: all 0.4s ease;
+    z-index: 2;
+    position: relative;
+}
+
+.vlt-experience-icon:hover i {
+    transform: scale(1.1) translateY(-2px);
+    text-shadow: 0 0 20px rgba(207, 0, 15, 0.5);
+}
+
+.company-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    line-height: 1.2;
+    z-index: 2;
+    position: relative;
+    margin-bottom: 0.2rem;
+}
+
+.company-subtitle {
+    font-size: 0.7rem;
+    color: #a0a0a0;
+    text-align: center;
+    line-height: 1;
+    z-index: 2;
+    position: relative;
+}
+
+/* Specific styling for each experience type */
+.trucon-icon {
+    border-color: rgba(207, 0, 15, 0.3);
+}
+
+.trucon-icon:hover {
+    border-color: rgba(207, 0, 15, 0.6);
+    box-shadow: 0 0 30px rgba(207, 0, 15, 0.3);
+    transform: scale(1.05);
+}
+
+.intern-icon {
+    border-color: rgba(52, 152, 219, 0.3);
+}
+
+.intern-icon:hover {
+    border-color: rgba(52, 152, 219, 0.6);
+    box-shadow: 0 0 30px rgba(52, 152, 219, 0.3);
+    transform: scale(1.05);
+}
+
+.intern-icon i {
+    color: #3498db;
+}
+
+.intern-icon:hover i {
+    text-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
+}
+
+.education-icon {
+    border-color: rgba(46, 204, 113, 0.3);
+}
+
+.education-icon:hover {
+    border-color: rgba(46, 204, 113, 0.6);
+    box-shadow: 0 0 30px rgba(46, 204, 113, 0.3);
+    transform: scale(1.05);
+}
+
+.education-icon i {
+    color: #2ecc71;
+}
+
+.education-icon:hover i {
+    text-shadow: 0 0 20px rgba(46, 204, 113, 0.5);
+}
+
+/* Enhanced Timeline Item Styling */
+.vlt-timeline-item {
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.vlt-timeline-item:hover {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    padding: 2rem 1rem;
+}
+
+.vlt-timeline-item__date {
+    color: #cf000f !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 0.5rem !important;
+    display: block !important;
+}
+
+.vlt-timeline-item__title {
+    color: #fff !important;
+    font-size: 1.4rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 1rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.vlt-timeline-item:hover .vlt-timeline-item__title {
+    color: #cf000f !important;
+}
+
+.vlt-timeline-item__text {
+    color: #a0a0a0 !important;
+    line-height: 1.6 !important;
+    font-size: 0.95rem !important;
+}
+
+/* Responsive Experience Icons */
+@media (max-width: 768px) {
+    .vlt-experience-icon {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .vlt-experience-icon i {
+        font-size: 2rem;
+    }
+    
+    .company-name {
+        font-size: 0.8rem;
+    }
+    
+    .company-subtitle {
+        font-size: 0.65rem;
+    }
+    
+    .vlt-timeline-item {
+        text-align: center;
+    }
+} 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
