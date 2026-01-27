@@ -1,29 +1,88 @@
-// Dynamic Portfolio Data Loader
+// Enhanced Dynamic Portfolio Data Loader with Firebase Integration
 class PortfolioDataLoader {
     constructor() {
         this.portfolioData = null;
+        this.firestore = null;
+        this.isFirebaseEnabled = true;
+        this.loadingIndicator = null;
         this.init();
     }
 
     async init() {
+        this.showLoadingIndicator();
         try {
+            // Try Firebase first, then fallback to JSON
+            await this.initializeFirebase();
             await this.loadPortfolioData();
             this.updatePortfolioContent();
+            this.setupRealtimeUpdates();
         } catch (error) {
             console.warn('Could not load dynamic data, using static content:', error);
-            // Fallback to static content if JSON loading fails
+            // Fallback to static content if both Firebase and JSON loading fail
+        } finally {
+            this.hideLoadingIndicator();
+        }
+    }
+
+    async initializeFirebase() {
+        try {
+            // Firebase configuration (same as admin panel)
+            const firebaseConfig = {
+                apiKey: "AIzaSyDkiH7_yAyoCu-r8xSLFMb7S1i1f6itVqk",
+                authDomain: "portfolio-315f0.firebaseapp.com",
+                projectId: "portfolio-315f0",
+                storageBucket: "portfolio-315f0.firebasestorage.app",
+                messagingSenderId: "334064031361",
+                appId: "1:334064031361:web:77d157f77a1c1962695f80"
+            };
+
+            // Check if Firebase is available
+            if (typeof firebase !== 'undefined') {
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(firebaseConfig);
+                }
+                this.firestore = firebase.firestore();
+                console.log('✅ Firebase initialized for portfolio');
+            } else {
+                console.log('Firebase SDK not available, using JSON fallback');
+                this.isFirebaseEnabled = false;
+            }
+        } catch (error) {
+            console.warn('Firebase initialization failed:', error);
+            this.isFirebaseEnabled = false;
         }
     }
 
     async loadPortfolioData() {
         try {
             console.log('Attempting to load portfolio data...');
+            
+            // Try Firebase first
+            if (this.isFirebaseEnabled && this.firestore) {
+                try {
+                    const doc = await this.firestore.collection('portfolio').doc('data').get();
+                    if (doc.exists) {
+                        this.portfolioData = doc.data();
+                        console.log('✅ Portfolio data loaded from Firebase:', {
+                            projects: this.portfolioData.projects?.length || 0,
+                            skills: this.portfolioData.skills?.length || 0,
+                            experience: this.portfolioData.experience?.length || 0,
+                            profile: this.portfolioData.profile ? 'Available' : 'Missing'
+                        });
+                        return;
+                    }
+                } catch (firebaseError) {
+                    console.warn('Firebase load failed, trying JSON fallback:', firebaseError);
+                }
+            }
+
+            // Fallback to JSON
             const response = await fetch('./data/portfolio-data.json');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             this.portfolioData = await response.json();
-            console.log('Portfolio data loaded successfully:', {
+            console.log('📄 Portfolio data loaded from JSON:', {
                 projects: this.portfolioData.projects?.length || 0,
                 skills: this.portfolioData.skills?.length || 0,
                 experience: this.portfolioData.experience?.length || 0,
@@ -33,6 +92,65 @@ class PortfolioDataLoader {
             console.error('Error loading portfolio data:', error);
             throw error;
         }
+    }
+
+    setupRealtimeUpdates() {
+        if (!this.isFirebaseEnabled || !this.firestore) return;
+
+        // Listen for real-time updates from Firebase
+        this.firestore.collection('portfolio').doc('data').onSnapshot((doc) => {
+            if (doc.exists) {
+                const newData = doc.data();
+                if (JSON.stringify(newData) !== JSON.stringify(this.portfolioData)) {
+                    console.log('🔄 Real-time update received from Firebase');
+                    this.portfolioData = newData;
+                    this.updatePortfolioContent();
+                    this.showUpdateNotification();
+                }
+            }
+        }, (error) => {
+            console.warn('Real-time updates disabled:', error);
+        });
+    }
+
+    showLoadingIndicator() {
+        this.loadingIndicator = document.createElement('div');
+        this.loadingIndicator.className = 'portfolio-loading';
+        this.loadingIndicator.innerHTML = `
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Loading portfolio data...</p>
+            </div>
+        `;
+        document.body.appendChild(this.loadingIndicator);
+    }
+
+    hideLoadingIndicator() {
+        if (this.loadingIndicator) {
+            this.loadingIndicator.remove();
+            this.loadingIndicator = null;
+        }
+    }
+
+    showUpdateNotification() {
+        const notification = document.createElement('div');
+        notification.className = 'update-notification';
+        notification.innerHTML = `
+            <div class="notification-content">
+                <i class="fas fa-sync-alt"></i>
+                <span>Portfolio updated in real-time!</span>
+            </div>
+        `;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 100);
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
     }
 
     updatePortfolioContent() {

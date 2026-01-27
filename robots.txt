@@ -3,9 +3,36 @@ Allow: /
 
 # Allow all search engines to index the portfolio
 Disallow: /admin/
+Disallow: /Main_portfolio_backend/
+Disallow: /test-json-structure.html
+Disallow: /page-preview-generator.html
 
 # Sitemap location
 Sitemap: https://sethupathy.iot-hub.in/sitemap.xml
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /Main_portfolio_backend/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /Main_portfolio_backend/
+
+# Block AI training crawlers (optional)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
 
 # Crawl delay
 Crawl-delay: 1

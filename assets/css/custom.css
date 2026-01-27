@@ -811,3 +811,504 @@ body {
  
  
  
+
+/* ========================================
+   PERFORMANCE & LOADING OPTIMIZATIONS
+   ======================================== */
+
+/* Loading Indicator Styles */
+.portfolio-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(13, 13, 13, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(10px);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.loading-spinner {
+    text-align: center;
+    color: #fff;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top: 3px solid #cf000f;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-spinner p {
+    font-size: 0.9rem;
+    color: #a0a0a0;
+    margin: 0;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* Real-time Update Notification */
+.update-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #cf000f, #9c000b);
+    color: #fff;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(207, 0, 15, 0.3);
+    z-index: 10000;
+    transform: translateX(400px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.update-notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.notification-content i {
+    font-size: 1.1rem;
+    animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.notification-content span {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Enhanced Performance Optimizations */
+.vlt-skill-box,
+.vlt-timeline-item,
+.project-card {
+    will-change: transform;
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Lazy Loading Placeholder */
+.lazy-loading {
+    background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* Improved Focus States for Accessibility */
+.vlt-skill-box:focus,
+.vlt-btn:focus,
+.vlt-navbar-menu a:focus {
+    outline: 2px solid #cf000f;
+    outline-offset: 2px;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .vlt-skill-box,
+    .vlt-skill-box i,
+    .vlt-skill-tag,
+    .spinner,
+    .notification-content i {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    .vlt-skill-box:hover {
+        transform: none !important;
+    }
+}
+
+/* Enhanced Mobile Performance */
+@media (max-width: 768px) {
+    .portfolio-loading {
+        backdrop-filter: none;
+        background: #0d0d0d;
+    }
+    
+    .update-notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        transform: translateY(-100px);
+    }
+    
+    .update-notification.show {
+        transform: translateY(0);
+    }
+}
+
+/* Critical CSS Inlining Optimization */
+.above-fold {
+    contain: layout style paint;
+}
+
+/* Preload Hover States */
+.vlt-skill-box::after,
+.vlt-skill-box::before {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+}
+
+/* ========================================
+   FIREBASE INTEGRATION ENHANCEMENTS
+   ======================================== */
+
+/* Firebase Connection Status Indicator */
+.firebase-status {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.firebase-status.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.firebase-status.connected {
+    border-color: rgba(46, 204, 113, 0.3);
+}
+
+.firebase-status.connected::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: #2ecc71;
+    border-radius: 50%;
+    animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.firebase-status.disconnected {
+    border-color: rgba(231, 76, 60, 0.3);
+}
+
+.firebase-status.disconnected::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: #e74c3c;
+    border-radius: 50%;
+}
+
+/* Admin Panel Quick Access */
+.admin-quick-access {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.admin-quick-access.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.admin-quick-access a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #cf000f, #9c000b);
+    color: #fff;
+    border-radius: 50%;
+    text-decoration: none;
+    box-shadow: 0 10px 30px rgba(207, 0, 15, 0.3);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.admin-quick-access a:hover {
+    transform: scale(1.1);
+    box-shadow: 0 15px 40px rgba(207, 0, 15, 0.4);
+}
+
+.admin-quick-access i {
+    font-size: 1.2rem;
+}
+
+/* Enhanced Error States */
+.error-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #a0a0a0;
+}
+
+.error-state i {
+    font-size: 3rem;
+    color: #e74c3c;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.error-state h3 {
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.error-state p {
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.retry-btn {
+    background: #cf000f;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.retry-btn:hover {
+    background: #9c000b;
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   SEO & ACCESSIBILITY IMPROVEMENTS
+   ======================================== */
+
+/* Skip to Content Link */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #cf000f;
+    color: #fff;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 10001;
+    transition: top 0.3s;
+}
+
+.skip-link:focus {
+    top: 6px;
+}
+
+/* Screen Reader Only Content */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .vlt-skill-box {
+        border: 2px solid #fff;
+        background: #000;
+    }
+    
+    .vlt-skill-tag {
+        border: 1px solid #fff;
+        background: #000;
+        color: #fff;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .portfolio-loading,
+    .update-notification,
+    .firebase-status,
+    .admin-quick-access {
+        display: none !important;
+    }
+    
+    .vlt-skill-box {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+}
+
+/* ========================================
+   RESPONSIVE ENHANCEMENTS
+   ======================================== */
+
+/* Ultra-wide screens */
+@media (min-width: 1920px) {
+    .container {
+        max-width: 1600px;
+    }
+    
+    .vlt-skill-box {
+        height: 450px !important;
+        min-height: 450px !important;
+        max-height: 450px !important;
+    }
+}
+
+/* Tablet landscape */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .vlt-skill-box {
+        height: 400px !important;
+        min-height: 400px !important;
+        max-height: 400px !important;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 375px) {
+    .vlt-skill-box {
+        height: 340px !important;
+        min-height: 340px !important;
+        max-height: 340px !important;
+        padding: 1.25rem 0.75rem !important;
+    }
+    
+    .vlt-skill-tags {
+        min-height: 80px !important;
+    }
+    
+    .update-notification {
+        padding: 0.75rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* ========================================
+   PERFORMANCE MONITORING
+   ======================================== */
+
+/* Performance hints for browsers */
+.vlt-skill-box {
+    contain: layout style paint;
+    content-visibility: auto;
+    contain-intrinsic-size: 420px;
+}
+
+/* Intersection Observer optimization */
+.lazy-load {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out;
+}
+
+.lazy-load.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Critical resource hints */
+.preload-hint {
+    font-display: swap;
+}
+
+/* ========================================
+   DARK MODE ENHANCEMENTS
+   ======================================== */
+
+/* Enhanced dark mode variables */
+:root {
+    --bg-primary: #0d0d0d;
+    --bg-secondary: rgba(255, 255, 255, 0.03);
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --accent-primary: #cf000f;
+    --accent-secondary: #9c000b;
+    --border-primary: rgba(255, 255, 255, 0.1);
+    --shadow-primary: rgba(0, 0, 0, 0.3);
+}
+
+/* System dark mode preference */
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+    }
+}
+
+/* ========================================
+   ANIMATION PERFORMANCE
+   ======================================== */
+
+/* GPU acceleration for animations */
+.vlt-skill-box,
+.vlt-skill-tag,
+.spinner,
+.update-notification {
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+/* Optimize animation performance */
+@keyframes optimizedFadeIn {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.fade-in-optimized {
+    animation: optimizedFadeIn 0.6s ease-out forwards;
+}

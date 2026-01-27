@@ -4,26 +4,61 @@
 <head>
 	<meta charset="utf-8">
 	<title>Sethupathy - IoT Developer Portfolio</title>
-	<meta name="description" content="Personal Portfolio of Sethupathy, IoT Developer">
+	<meta name="description" content="Personal Portfolio of Sethupathy, IoT Developer & Embedded Systems Engineer. Specializing in ESP32, Arduino, Python, and industrial IoT solutions.">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	
+	<!-- Enhanced SEO Meta Tags -->
+	<meta name="keywords" content="IoT Developer, Embedded Systems, ESP32, Arduino, Python, MQTT, Industrial IoT, Sethupathy, Portfolio">
+	<meta name="author" content="Sethupathy">
+	<meta name="robots" content="index, follow">
+	<link rel="canonical" href="https://sethupathy.iot-hub.in/">
+	
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://sethupathyiot.com/">
+	<meta property="og:url" content="https://sethupathy.iot-hub.in/">
 	<meta property="og:title" content="Sethupathy - IoT Developer Portfolio">
 	<meta property="og:description" content="IoT Developer and Embedded Systems Engineer passionate about building smart, connected, and reliable systems. Experienced in C/C++, Python, and ARM-based microcontrollers.">
-	<meta property="og:image" content="assets/img/page-preview.jpg">
+	<meta property="og:image" content="https://sethupathy.iot-hub.in/assets/img/page-preview.jpg">
+	<meta property="og:site_name" content="Sethupathy Portfolio">
 	
 	<!-- Twitter -->
 	<meta property="twitter:card" content="summary_large_image">
-	<meta property="twitter:url" content="https://sethupathyiot.com/">
+	<meta property="twitter:url" content="https://sethupathy.iot-hub.in/">
 	<meta property="twitter:title" content="Sethupathy - IoT Developer Portfolio">
 	<meta property="twitter:description" content="IoT Developer and Embedded Systems Engineer passionate about building smart, connected, and reliable systems.">
-	<meta property="twitter:image" content="assets/img/page-preview.jpg">
+	<meta property="twitter:image" content="https://sethupathy.iot-hub.in/assets/img/page-preview.jpg">
+	<meta property="twitter:creator" content="@SethupathyIoT">
+	
+	<!-- Structured Data for SEO -->
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Person",
+		"name": "Sethupathy",
+		"jobTitle": "IoT Developer & Embedded Systems Engineer",
+		"url": "https://sethupathy.iot-hub.in/",
+		"sameAs": [
+			"https://linkedin.com/in/sethupathy-iot",
+			"https://github.com/SethupathyIoT"
+		],
+		"worksFor": {
+			"@type": "Organization",
+			"name": "TRUCON"
+		},
+		"knowsAbout": ["IoT Development", "Embedded Systems", "ESP32", "Arduino", "Python", "MQTT", "Industrial IoT"],
+		"email": "SethupathyIoT@proton.me"
+	}
+	</script>
 	
 	<!--Favicon-->
 	<link rel="icon" type="image/svg" href="assets/img/root/favicon.svg">
+	<link rel="apple-touch-icon" href="assets/img/root/favicon.svg">
+	
+	<!-- Preload Critical Resources -->
+	<link rel="preload" href="assets/fonts/Gilroy/Gilroy-Regular.woff" as="font" type="font/woff" crossorigin>
+	<link rel="preload" href="assets/css/vlt-main.min.css" as="style">
+	
 	<!--Framework-->
 	<link rel="stylesheet" href="assets/css/framework/bootstrap.min.css">
 	<!--Fonts-->
@@ -36,6 +71,10 @@
 	<link rel="stylesheet" href="assets/css/vlt-main.min.css">
 	<!--Custom-->
 	<link rel="stylesheet" href="assets/css/custom.css">
+	
+	<!-- Firebase SDK for Real-time Updates -->
+	<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 </head>
 
 <body class=" animsition">
@@ -810,6 +849,8 @@
 			}
 		});
 	</script>
+	<!-- Performance Monitor -->
+	<script src="assets/scripts/performance-monitor.js"></script>
 	<!-- Dynamic Portfolio Data Loader -->
 	<script src="assets/scripts/portfolio-dynamic-loader.js"></script>
 </body>
