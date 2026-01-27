@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel Setup Fix - Sethupathy Portfolio</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        h1 {
+            color: #cf000f;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .status-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        .status-success {
+            border-left: 4px solid #2ecc71;
+        }
+        .status-error {
+            border-left: 4px solid #e74c3c;
+        }
+        .status-warning {
+            border-left: 4px solid #f39c12;
+        }
+        .btn {
+            background: #cf000f;
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: #9c000b;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #3498db;
+        }
+        .btn-secondary:hover {
+            background: #2980b9;
+        }
+        .code-block {
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        .step {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            border-left: 4px solid #cf000f;
+        }
+        .step h3 {
+            color: #cf000f;
+            margin-top: 0;
+        }
+        #log {
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 1rem;
+            height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            margin: 1rem 0;
+        }
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #cf000f;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Admin Panel Setup Fix</h1>
+        <p>This tool will help diagnose and fix your admin panel setup issues.</p>
+
+        <div class="status-card status-warning">
+            <h3>🚨 Current Issue</h3>
+            <p>Admin panel showing "setup failed" - Let's diagnose and fix this step by step.</p>
+        </div>
+
+        <div class="step">
+            <h3>Step 1: Test Firebase Connection</h3>
+            <p>First, let's verify if Firebase is properly configured and accessible.</p>
+            <button class="btn" onclick="testFirebaseConnection()">Test Firebase Connection</button>
+            <div id="firebase-status"></div>
+        </div>
+
+        <div class="step">
+            <h3>Step 2: Initialize Portfolio Data</h3>
+            <p>If Firebase is working, let's set up your portfolio data structure.</p>
+            <button class="btn" onclick="initializePortfolioData()">Initialize Portfolio Data</button>
+            <div id="data-status"></div>
+        </div>
+
+        <div class="step">
+            <h3>Step 3: Verify Admin Panel Access</h3>
+            <p>Test if the admin panel can access and modify the data.</p>
+            <button class="btn btn-secondary" onclick="testAdminAccess()">Test Admin Panel</button>
+            <div id="admin-status"></div>
+        </div>
+
+        <div class="step">
+            <h3>Step 4: Setup Complete</h3>
+            <p>Once all tests pass, your admin panel should be working correctly.</p>
+            <button class="btn" onclick="openAdminPanel()" disabled id="open-admin-btn">Open Admin Panel</button>
+        </div>
+
+        <div class="status-card">
+            <h3>📋 Diagnostic Log</h3>
+            <div id="log"></div>
+            <button class="btn btn-secondary" onclick="clearLog()">Clear Log</button>
+            <button class="btn btn-secondary" onclick="downloadLog()">Download Log</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDkiH7_yAyoCu-r8xSLFMb7S1i1f6itVqk",
+            authDomain: "portfolio-315f0.firebaseapp.com",
+            projectId: "portfolio-315f0",
+            storageBucket: "portfolio-315f0.firebasestorage.app",
+            messagingSenderId: "334064031361",
+            appId: "1:334064031361:web:77d157f77a1c1962695f80"
+        };
+
+        let firebaseApp = null;
+        let firestore = null;
+
+        // Portfolio data structure
+        const portfolioData = {
+            profile: {
+                name: "Sethupathy",
+                title: "IoT Developer & Embedded Systems Engineer",
+                bio: "IoT Developer and Embedded Systems Engineer passionate about building smart, connected, and reliable systems. Experienced in C/C++, Python, and ARM-based microcontrollers.",
+                email: "SethupathyIoT@proton.me",
+                linkedin: "https://linkedin.com/in/sethupathy-iot",
+                github: "https://github.com/SethupathyIoT"
+            },
+            projects: [
+                {
+                    id: Date.now(),
+                    name: "Real-Time GPS Tracking System",
+                    description: "GPS tracking utilizing ESP32 and NEO-6M for real-time updates via Telegram Bot. Includes Google Maps integration and portable battery operation.",
+                    technologies: "ESP32, NEO-6M, Telegram Bot, Google Maps API",
+                    github: "https://github.com/SethupathyIoT",
+                    demo: "",
+                    image: "assets/img/project-01.jpg",
+                    featured: true
+                },
+                {
+                    id: Date.now() + 1,
+                    name: "Smart Home Automation",
+                    description: "Voice-controlled automation using ESP32, DHT11, and Relay Modules. Integrated with Alexa and Home Assistant via Nabu Casa.",
+                    technologies: "ESP32, DHT11, Relay Modules, Alexa, Home Assistant",
+                    github: "https://github.com/SethupathyIoT",
+                    demo: "",
+                    image: "assets/img/project-02.jpg",
+                    featured: true
+                },
+                {
+                    id: Date.now() + 2,
+                    name: "Industrial IoT Monitoring System",
+                    description: "MQTT-based industrial monitoring system with real-time data visualization and alert mechanisms for production environments.",
+                    technologies: "ESP32, MQTT, InfluxDB, Grafana, Node-RED",
+                    github: "https://github.com/SethupathyIoT",
+                    demo: "",
+                    image: "assets/img/project-03.jpg",
+                    featured: false
+                }
+            ],
+            skills: [
+                {
+                    id: 1,
+                    category: "Embedded Development",
+                    icon: "lnir-code-alt",
+                    description: "Low-level programming and firmware development for microcontrollers",
+                    tags: ["Embedded C", "C++", "Assembly", "Real-time OS", "Bare Metal", "Interrupt Handling"],
+                    color: "#cf000f"
+                },
+                {
+                    id: 2,
+                    category: "Microcontrollers & SoCs",
+                    icon: "lnir-cog",
+                    description: "ARM-based and 8-bit microcontroller platforms",
+                    tags: ["STM32", "ESP32/ESP8266", "Raspberry Pi", "Arduino", "PIC", "8051", "Nordic nRF"],
+                    color: "#ff6b35"
+                },
+                {
+                    id: 3,
+                    category: "Communication Protocols",
+                    icon: "lnir-shuffle",
+                    description: "Wired and wireless communication interfaces",
+                    tags: ["UART/USART", "SPI", "I2C", "CAN Bus", "RS485", "1-Wire"],
+                    color: "#4a90e2"
+                }
+            ],
+            experience: [
+                {
+                    id: 1,
+                    company: "TRUCON",
+                    subtitle: "Brickslate Industries",
+                    position: "IoT Developer",
+                    period: "Aug 2024 - Present",
+                    description: "TRUCON by Brickslate Industries Private Limited. Designed, developed, and deployed IoT solutions focusing on automation and robustness. Implemented stacks using C/C++, Python, and MQTT/Modbus.",
+                    icon: "lnir-cogs",
+                    color: "#cf000f"
+                },
+                {
+                    id: 2,
+                    company: "TRUCON",
+                    subtitle: "Internship",
+                    position: "IoT Intern",
+                    period: "Mar 2024 - Aug 2024",
+                    description: "Validated and supported industrial IoT systems. Performed Wi-Fi/BLE connectivity testing and assisted in debugging live production environments.",
+                    icon: "lnir-graduation",
+                    color: "#3498db"
+                },
+                {
+                    id: 3,
+                    company: "RVS College",
+                    subtitle: "Arts & Science",
+                    position: "B.Sc. IoT",
+                    period: "2022 - 2025",
+                    description: "RVS Arts and Science College. Specialized in Embedded Systems & Microcontrollers (8051, PIC).",
+                    icon: "lnir-graduate",
+                    color: "#2ecc71"
+                }
+            ]
+        };
+
+        function log(message, type = 'info') {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.style.color = type === 'error' ? '#e74c3c' : type === 'success' ? '#2ecc71' : '#fff';
+            logEntry.innerHTML = `[${timestamp}] ${message}`;
+            logDiv.appendChild(logEntry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(`[${timestamp}] ${message}`);
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        function downloadLog() {
+            const logContent = document.getElementById('log').innerText;
+            const blob = new Blob([logContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `admin-panel-diagnostic-${new Date().toISOString().split('T')[0]}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        async function testFirebaseConnection() {
+            const statusDiv = document.getElementById('firebase-status');
+            statusDiv.innerHTML = '<div class="spinner"></div>Testing Firebase connection...';
+            log('Starting Firebase connection test...');
+
+            try {
+                // Initialize Firebase
+                if (!firebaseApp) {
+                    firebaseApp = firebase.initializeApp(firebaseConfig);
+                    firestore = firebase.firestore();
+                    log('Firebase app initialized successfully', 'success');
+                }
+
+                // Test connection by reading a document
+                const testDoc = await firestore.collection('_test').doc('connection').get();
+                log('Firebase connection test successful', 'success');
+
+                statusDiv.innerHTML = `
+                    <div class="status-card status-success">
+                        <h4>✅ Firebase Connection Successful</h4>
+                        <p>Project ID: ${firebaseConfig.projectId}</p>
+                        <p>Connection established and working properly.</p>
+                    </div>
+                `;
+
+                return true;
+            } catch (error) {
+                log(`Firebase connection failed: ${error.message}`, 'error');
+                statusDiv.innerHTML = `
+                    <div class="status-card status-error">
+                        <h4>❌ Firebase Connection Failed</h4>
+                        <p>Error: ${error.message}</p>
+                        <p>Please check your Firebase configuration and internet connection.</p>
+                    </div>
+                `;
+                return false;
+            }
+        }
+
+        async function initializePortfolioData() {
+            const statusDiv = document.getElementById('data-status');
+            statusDiv.innerHTML = '<div class="spinner"></div>Initializing portfolio data...';
+            log('Starting portfolio data initialization...');
+
+            try {
+                if (!firestore) {
+                    throw new Error('Firebase not initialized. Please test connection first.');
+                }
+
+                // Add timestamp and metadata
+                const dataToSave = {
+                    ...portfolioData,
+                    lastUpdated: new Date().toISOString(),
+                    updatedBy: 'Setup Fix Tool',
+                    version: '1.0.0'
+                };
+
+                // Save to Firestore
+                await firestore.collection('portfolio').doc('data').set(dataToSave);
+                log('Portfolio data saved to Firestore successfully', 'success');
+
+                // Verify the data was saved
+                const doc = await firestore.collection('portfolio').doc('data').get();
+                if (doc.exists) {
+                    const data = doc.data();
+                    log(`Data verification successful. Found ${data.projects?.length || 0} projects, ${data.skills?.length || 0} skills, ${data.experience?.length || 0} experiences`, 'success');
+                    
+                    statusDiv.innerHTML = `
+                        <div class="status-card status-success">
+                            <h4>✅ Portfolio Data Initialized</h4>
+                            <p>Projects: ${data.projects?.length || 0}</p>
+                            <p>Skills: ${data.skills?.length || 0}</p>
+                            <p>Experience: ${data.experience?.length || 0}</p>
+                            <p>Last Updated: ${data.lastUpdated}</p>
+                        </div>
+                    `;
+                    return true;
+                } else {
+                    throw new Error('Data verification failed - document not found after save');
+                }
+            } catch (error) {
+                log(`Portfolio data initialization failed: ${error.message}`, 'error');
+                statusDiv.innerHTML = `
+                    <div class="status-card status-error">
+                        <h4>❌ Data Initialization Failed</h4>
+                        <p>Error: ${error.message}</p>
+                        <p>Please ensure Firebase connection is working.</p>
+                    </div>
+                `;
+                return false;
+            }
+        }
+
+        async function testAdminAccess() {
+            const statusDiv = document.getElementById('admin-status');
+            statusDiv.innerHTML = '<div class="spinner"></div>Testing admin panel access...';
+            log('Testing admin panel access...');
+
+            try {
+                if (!firestore) {
+                    throw new Error('Firebase not initialized. Please test connection first.');
+                }
+
+                // Test read access
+                const doc = await firestore.collection('portfolio').doc('data').get();
+                if (!doc.exists) {
+                    throw new Error('Portfolio data not found. Please initialize data first.');
+                }
+
+                // Test write access by updating lastAccessed
+                await firestore.collection('portfolio').doc('data').update({
+                    lastAccessed: new Date().toISOString(),
+                    accessedBy: 'Setup Fix Tool'
+                });
+
+                log('Admin access test successful - read and write operations working', 'success');
+
+                statusDiv.innerHTML = `
+                    <div class="status-card status-success">
+                        <h4>✅ Admin Access Verified</h4>
+                        <p>Read access: ✅ Working</p>
+                        <p>Write access: ✅ Working</p>
+                        <p>Your admin panel should now work correctly!</p>
+                    </div>
+                `;
+
+                // Enable the admin panel button
+                const adminBtn = document.getElementById('open-admin-btn');
+                adminBtn.disabled = false;
+                adminBtn.style.opacity = '1';
+
+                return true;
+            } catch (error) {
+                log(`Admin access test failed: ${error.message}`, 'error');
+                statusDiv.innerHTML = `
+                    <div class="status-card status-error">
+                        <h4>❌ Admin Access Failed</h4>
+                        <p>Error: ${error.message}</p>
+                        <p>Please complete previous steps first.</p>
+                    </div>
+                `;
+                return false;
+            }
+        }
+
+        function openAdminPanel() {
+            log('Opening admin panel...', 'success');
+            window.open('https://2fuhpvka9lh8sbmxouzih2gm20sh6zmesvf.netlify.app/', '_blank');
+        }
+
+        // Auto-run connection test on page load
+        window.addEventListener('load', () => {
+            log('Admin Panel Setup Fix Tool loaded');
+            log('Ready to diagnose and fix admin panel issues');
+        });
+    </script>
+</body>
+</html>
