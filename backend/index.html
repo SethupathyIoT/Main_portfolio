@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sethupathy | Admin Dashboard</title>
+    <!-- Include the premium CSS -->
+    <link rel="stylesheet" href="./style.css" />
+    <!-- Load Lucide icons for scalable SVGs -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Auth View -->
+        <main id="auth-view" class="auth-container hidden">
+            <div class="glass-panel auth-box">
+                <div class="auth-header">
+                    <h1>S<span class="accent-text">.</span> Admin</h1>
+                    <p>Enter your credentials to access the dashboard</p>
+                </div>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" id="email" class="form-input" placeholder="admin@example.com" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" id="password" class="form-input" placeholder="••••••••" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="login-btn">
+                        <span>Sign In</span>
+                        <i data-lucide="log-in" style="width: 18px; height: 18px;"></i>
+                    </button>
+                    <div id="auth-error" class="hidden" style="color: var(--error); font-size: 0.8rem; margin-top: 1rem; text-align: center;"></div>
+                </form>
+            </div>
+        </main>
+
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="dashboard-layout hidden">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h2 style="margin: 0;">S<span class="accent-text">.</span> Admin</h2>
+                </div>
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-item active" data-view="profile">
+                        <i data-lucide="user"></i> Profile
+                    </a>
+                    <a href="#" class="nav-item" data-view="projects">
+                        <i data-lucide="briefcase"></i> Projects
+                    </a>
+                    <a href="#" class="nav-item" data-view="skills">
+                        <i data-lucide="sliders-horizontal"></i> Skills
+                    </a>
+                    <a href="#" class="nav-item" data-view="experience">
+                        <i data-lucide="book-open"></i> Experience
+                    </a>
+                </nav>
+                <div class="sidebar-footer">
+                    <button id="logout-btn" class="btn btn-secondary" style="width: 100%;">
+                        <i data-lucide="log-out" style="width: 16px;"></i> Logout
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Main Content Container -->
+            <main class="main-content">
+                <!-- Topbar -->
+                <header class="topbar">
+                    <div id="current-page-title" class="page-title">Profile Settings</div>
+                    <div class="topbar-actions">
+                        <div id="db-status" class="status-badge disconnected">
+                            <div class="status-dot"></div>
+                            <span>Disconnected</span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Dynamic Content Area -->
+                <div class="content-area" id="main-content-area">
+                    <!-- Loading State -->
+                    <div id="global-loader" class="loader-wrapper">
+                        <div class="spinner"></div>
+                        <p>Loading database...</p>
+                    </div>
+
+                    <!-- Profile View -->
+                    <div id="view-profile" class="view-section hidden">
+                        <div class="section-header">
+                            <h3><i data-lucide="user"></i> Personal Information</h3>
+                            <button id="save-profile-btn" class="btn btn-primary" style="width: auto;">Save Changes</button>
+                        </div>
+                        <div class="glass-card">
+                            <form id="profile-form">
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-name">Full Name</label>
+                                    <input type="text" id="profile-name" class="form-input" required />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-title">Professional Title</label>
+                                    <input type="text" id="profile-title" class="form-input" required />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-email">Public Email</label>
+                                    <input type="email" id="profile-email" class="form-input" required />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-github">GitHub Profile URL</label>
+                                    <input type="url" id="profile-github" class="form-input" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-linkedin">LinkedIn Profile URL</label>
+                                    <input type="url" id="profile-linkedin" class="form-input" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-bio">Biography</label>
+                                    <textarea id="profile-bio" class="form-textarea" required></textarea>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Projects View -->
+                    <div id="view-projects" class="view-section hidden">
+                        <div class="section-header">
+                            <h3><i data-lucide="briefcase"></i> Portfolio Projects</h3>
+                            <button id="add-project-btn" class="btn btn-primary" style="width: auto;">
+                                <i data-lucide="plus"></i> Add Project
+                            </button>
+                        </div>
+                        <div id="projects-grid" class="data-grid">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Skills View -->
+                    <div id="view-skills" class="view-section hidden">
+                        <div class="section-header">
+                            <h3><i data-lucide="sliders-horizontal"></i> Technical Skills</h3>
+                            <button id="add-skill-btn" class="btn btn-primary" style="width: auto;">
+                                <i data-lucide="plus"></i> Add Skill Category
+                            </button>
+                        </div>
+                        <div id="skills-grid" class="data-grid">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Experience View -->
+                    <div id="view-experience" class="view-section hidden">
+                        <div class="section-header">
+                            <h3><i data-lucide="book-open"></i> Work Experience</h3>
+                            <button id="add-exp-btn" class="btn btn-primary" style="width: auto;">
+                                <i data-lucide="plus"></i> Add Experience
+                            </button>
+                        </div>
+                        <div id="experience-grid" class="data-grid">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Project Modal -->
+    <div id="project-modal" class="modal-overlay">
+        <div class="glass-panel modal-container">
+            <div class="modal-header">
+                <h3 id="project-modal-title" class="modal-title">Add Project</h3>
+                <button type="button" class="modal-close" data-close="project-modal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="project-form">
+                    <input type="hidden" id="project-id" />
+                    <div class="form-group">
+                        <label class="form-label" for="project-name">Project Name</label>
+                        <input type="text" id="project-name" class="form-input" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="project-tech">Technologies (comma separated)</label>
+                        <input type="text" id="project-tech" class="form-input" placeholder="e.g. ESP32, MQTT, React" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="project-github">GitHub Link</label>
+                        <input type="url" id="project-github" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="project-demo">Demo Link (optional)</label>
+                        <input type="url" id="project-demo" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="project-image">Image URL</label>
+                        <input type="text" id="project-image" class="form-input" placeholder="assets/img/project-01.jpg" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="project-desc">Description</label>
+                        <textarea id="project-desc" class="form-textarea" required></textarea>
+                    </div>
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="project-featured" class="form-checkbox" />
+                        <span style="font-size: 0.875rem;">Feature on homepage</span>
+                    </label>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" style="width: auto;" data-close="project-modal">Cancel</button>
+                <button type="button" class="btn btn-primary" style="width: auto;" id="save-project-btn">Save Project</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skill Modal -->
+    <div id="skill-modal" class="modal-overlay">
+        <div class="glass-panel modal-container">
+            <div class="modal-header">
+                <h3 id="skill-modal-title" class="modal-title">Add Skill Category</h3>
+                <button type="button" class="modal-close" data-close="skill-modal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="skill-form">
+                    <input type="hidden" id="skill-id" />
+                    <div class="form-group">
+                        <label class="form-label" for="skill-category">Category Name</label>
+                        <input type="text" id="skill-category" class="form-input" placeholder="e.g. Embedded Development" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="skill-icon">LineIcon Class</label>
+                        <input type="text" id="skill-icon" class="form-input" placeholder="e.g. lnir-code-alt" required />
+                        <small style="color: var(--text-muted); font-size: 0.75rem; margin-top: 0.25rem; display: block;">See LineIcons documentation for available icons.</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="skill-color">Display Color (Hex)</label>
+                        <input type="text" id="skill-color" class="form-input" placeholder="#cf000f" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="skill-tags">Tags (comma separated)</label>
+                        <input type="text" id="skill-tags" class="form-input" placeholder="e.g. C, C++, Assembly" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="skill-desc">Category Description</label>
+                        <textarea id="skill-desc" class="form-textarea" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" style="width: auto;" data-close="skill-modal">Cancel</button>
+                <button type="button" class="btn btn-primary" style="width: auto;" id="save-skill-btn">Save Category</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Experience Modal -->
+    <div id="experience-modal" class="modal-overlay">
+        <div class="glass-panel modal-container">
+            <div class="modal-header">
+                <h3 id="experience-modal-title" class="modal-title">Add Experience</h3>
+                <button type="button" class="modal-close" data-close="experience-modal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="exp-form">
+                    <input type="hidden" id="exp-id" />
+                    <div class="form-group">
+                        <label class="form-label" for="exp-company">Company / Institution</label>
+                        <input type="text" id="exp-company" class="form-input" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="exp-subtitle">Subtitle / Branch</label>
+                        <input type="text" id="exp-subtitle" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="exp-position">Role / Position</label>
+                        <input type="text" id="exp-position" class="form-input" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="exp-period">Time Period</label>
+                        <input type="text" id="exp-period" class="form-input" placeholder="e.g. Aug 2024 - Present" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="exp-icon">Icon Class mapping</label>
+                        <input type="text" id="exp-icon" class="form-input" placeholder="e.g. lnir-cogs" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="exp-color">Accent Color</label>
+                        <input type="text" id="exp-color" class="form-input" placeholder="#cf000f" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="exp-desc">Description</label>
+                        <textarea id="exp-desc" class="form-textarea" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" style="width: auto;" data-close="experience-modal">Cancel</button>
+                <button type="button" class="btn btn-primary" style="width: auto;" id="save-exp-btn">Save Experience</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script type="module" src="/main.js"></script>
+</body>
+</html>
